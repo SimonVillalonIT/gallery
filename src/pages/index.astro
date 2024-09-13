@@ -1,0 +1,103 @@
+---
+import { Carousel } from 'astro-carousel';
+import type { ComponentProps } from 'astro/types';
+
+const images: ComponentProps<typeof Carousel>["images"] = [
+   {
+    src: "https://picsum.photos/1350/1080",
+    alt: "Image 1",
+    width: 1350,
+    height: 1080,
+    widths: [450, 675, 1350],
+  },
+  {
+    src: "https://picsum.photos/800/600",
+    alt: "Image 2",
+    width: 800,
+    height: 600,
+    widths: [400, 600, 800],
+  },
+  {
+    src: "https://picsum.photos/600/400",
+    alt: "Image 3",
+    width: 600,
+    height: 400,
+    widths: [300, 450, 600],
+  },
+  {
+    src: "https://picsum.photos/1200/800",
+    alt: "Image 4",
+    width: 1200,
+    height: 800,
+    widths: [400, 600, 1200],
+  },
+  {
+    src: "https://picsum.photos/500/500",
+    alt: "Image 5",
+    width: 500,
+    height: 500,
+    widths: [250, 375, 500],
+  },
+  {
+    src: "https://picsum.photos/1000/1500",
+    alt: "Image 6",
+    width: 1000,
+    height: 1500,
+    widths: [500, 750, 1000],
+  },
+];
+---
+
+<style>
+  #mosaicGallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
+    justify-items: center;
+    max-width: 100%;
+  }
+
+  #mosaicGallery li {
+    list-style: none;
+  }
+
+  #mosaicGallery img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* Optionally adjust sizes for different classes based on dimensions */
+  .large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .medium {
+    grid-column: span 2;
+  }
+
+  .small {
+    grid-column: span 1;
+  }
+</style>
+
+<ul id="mosaicGallery">
+  {
+    images.map((img, index) => {
+      // Logic to assign sizes based on image dimensions or other conditions
+      const className =  img.width as number > 1000 ? 'large' : img.width as number > 600 ? 'medium' : 'small';
+      
+      return (
+        <li class={className}>
+          <a href={`/?image=${index}`} data-carousel-index={index}>
+            <img src={img.src} alt={img.alt} />
+          </a>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<!-- Carousel component if needed later -->
+<Carousel images={images} />
